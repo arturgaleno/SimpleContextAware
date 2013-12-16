@@ -1,0 +1,88 @@
+Project created by Artur Galeno Muniz
+
+The objective that project is apply developers a simple way to do android context oriented applications.
+
+For now, that version is implementated for use with AndroidAnnotations framework.
+
+That version is just a useful simple implementation of an ideia. Fell free to fork and improve.
+
+Usage:
+
+@ContextAware
+ 
+This annotation is used to annotate methods that is context orientated, you can specify the atributes "before" or "after". If you use "before", that method will be executed before the interceptor method "interceptBefore", if you use "after", that method will be executed after the interceptor method "interceptAfter". You can specify both too.
+
+public class foo {
+
+	@ContextAware(before=true,after=true)
+	public boolean method() {
+		.
+		.
+		.
+	}
+}
+
+InterceptorTemplate Class
+
+To use correctly @ContextAware some other implementations are necessary, the interceptor is mandatory. You must to extend InterceptorTemplate to implement the methods "intercetBefore" and "interceptAfter"
+
+public class MyInterceptor extends InterceptorTemplate {
+	
+	@Override
+	public boolean interceptBefore() {}
+	@Override
+	public boolean interceptAfter() {}
+}
+
+@Interceptor
+
+That annotation is used to register the interceptor on the class that contain any method with @ContextAware annotation.
+
+public class foo {
+	
+	@Interceptor
+	MyInterceptor myInterceptor;
+
+	@ContextAware(before=true,after=true)
+	public boolean method() {
+	}
+
+}
+
+@Mandatory
+
+That annotation says the annotated method will execute only if the intercept method return true, in case of before=true, or only if the annotated method return true in case of after=true. Or both cases.
+
+public class foo {
+
+	@Interceptor
+	MyInterceptor myInterceptor;
+
+	@ContextAware(before=true,after=true)
+	@Mandatory
+	public boolean method() {
+	}
+}
+
+IContextType Interface
+
+This interface says that class which implements the interface is a context.
+And force you to implement the "getInterceptor" method. This method must return the interceptor that you registrated on class.
+
+public class foo implements IContextType {
+	
+	@Interceptor
+	MyInterceptor myInterceptor;
+
+	@ContextAware(before=true,after=true)
+	@Mandatory
+	public boolean method(){
+	}
+
+	@Override
+	public InterceptorTemplate getInterceptor(){
+		return this.myInterceptor;
+	}
+}
+
+SimpleContextAware apply to use Otto framework. For this offers the BusManager class. But you must to use the Otto version compatible with AndroidAnnotation framework.
