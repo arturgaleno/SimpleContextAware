@@ -4,7 +4,7 @@ The objective that project is allow developers a simple way to do android contex
 
 For now, that version is implemented for use with AndroidAnnotations framework.
 
-That version is just a useful simple implementation of an ideia. Fell free to fork and improve.
+That version is just a useful simple implementation of an ideia. Feel free to fork and improve.
 
 Usage:
 
